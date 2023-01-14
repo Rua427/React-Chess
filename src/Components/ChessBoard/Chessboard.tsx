@@ -47,7 +47,7 @@ const Chessboard = () => {
             element.style.top = `${y}px`;
 
             setActivePiece(element);
-            // console.log(activePiece);
+            console.log(activePiece);
         }
     }
 
@@ -91,7 +91,7 @@ const Chessboard = () => {
     const dropPiece = (e: React.MouseEvent) => {
         const chessboard = chessboardRef.current;
         if(activePiece && chessboard){
-            // console.log("drop");
+            console.log("drop");
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
             const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE));
             
