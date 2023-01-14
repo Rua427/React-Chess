@@ -17,7 +17,7 @@ import {
 const Chessboard = () => {
     // const [gridX, setGridX] = useState(0);
     // const [gridY, setGridY] = useState(0);
-    const [grabPosition, setGrabPosition] = useState<Position  >({x: - 1, y: -1});
+    const [grabPosition, setGrabPosition] = useState<Position>({x: - 1, y: -1});
     const [pieces, setPieces] = useState<Piece[]>(initialBoardState);
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
     const chessboardRef = useRef<HTMLDivElement>(null);

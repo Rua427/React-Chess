@@ -164,6 +164,58 @@ export default class Referee {
         }
         return false;
     }
+    queenMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean{
+        //Top
+        let x: number = desiredPosition.x - initialPosition.x;
+        let y: number = desiredPosition.y - initialPosition.y;
+
+        if(x !== 0){
+            x = x > 0 ? 1 : -1;
+        }
+        if(y !== 0){
+            y = y > 0 ? 1 : -1;
+        }
+
+        for (let i = 1; i < 8; i++) {
+            let passedPosition: Position = {x: initialPosition.x + (i * x), y: initialPosition.y + (i * y)};
+            
+            if(samePosition(desiredPosition, passedPosition)){
+                if(this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)){
+                    return true;
+                }
+            }
+            else if(this.tileIsOccupied(passedPosition, boardState)){
+                break;
+            }
+        }
+
+        return false;
+    }
+    kingMove(initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean{
+        //Top
+        let x: number = desiredPosition.x - initialPosition.x;
+        let y: number = desiredPosition.y - initialPosition.y;
+
+        if(x !== 0){
+            x = x > 0 ? 1 : -1;
+        }
+        if(y !== 0){
+            y = y > 0 ? 1 : -1;
+        }
+
+        let passedPosition: Position = {x: initialPosition.x + x, y: initialPosition.y + y};
+        
+        if(samePosition(desiredPosition, passedPosition)){
+            if(this.tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)){
+                return true;
+            }
+        }
+        else if(this.tileIsOccupied(passedPosition, boardState)){
+            return false;
+        }
+
+        return false;
+    }
     isValidMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]){
 
         let validMode = false;
@@ -181,10 +233,15 @@ export default class Referee {
             case PieceType.ROOK:
                 validMode = this.rookMove(initialPosition, desiredPosition, team, boardState);
                 break;
+            case PieceType.QUEEN:
+                validMode = this.queenMove(initialPosition, desiredPosition, team, boardState);
+                break;
+            case PieceType.KING:
+                validMode = this.kingMove(initialPosition, desiredPosition, team, boardState);
+                break;
             default:
                 break;
         }
-
         return validMode;
 
     }
