@@ -1,0 +1,48 @@
+const {app, BrowserWindow} = require('electron');
+const path = require('path');
+const url = require('url');
+
+function createWindow() {
+    /*
+    * 넓이 1920에 높이 1080의 FHD 풀스크린 앱을 실행시킵니다.
+    * */
+    const win = new BrowserWindow({
+        width:1920,
+        height:1080
+    });
+
+    /*
+    * ELECTRON_START_URL을 직접 제공할경우 해당 URL을 로드합니다.
+    * 만일 URL을 따로 지정하지 않을경우 (프로덕션빌드) React 앱이
+    * 빌드되는 build 폴더의 index.html 파일을 로드합니다.
+    * */
+    const startUrl = process.env.ELECTRON_START_URL || url.format({
+        pathname: path.join(__dirname, './index.html'),
+        protocol: 'file:',
+        slashes: true
+    });
+
+    /*
+    * startUrl에 배정되는 url을 맨 위에서 생성한 BrowserWindow에서 실행시킵니다.
+    * */
+    win.loadURL(startUrl);
+
+}
+
+app.on('ready', createWindow);
+
+app.on('window-all-closed', () => {
+    // macOS의 대부분의 애플리케이션은 유저가 Cmd + Q 커맨드로 확실하게
+    // 종료하기 전까지 메뉴바에 남아 계속 실행됩니다.
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+});
+  
+app.on('activate', () => {
+  // macOS에선 보통 독 아이콘이 클릭되고 나서도
+  // 열린 윈도우가 없으면, 새로운 윈도우를 다시 만듭니다.
+  if (win === null) {
+    createWindow()
+  }
+})
