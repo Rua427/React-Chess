@@ -74,7 +74,7 @@ export const initialBoardState: Piece[] = [
         team: TeamType.OPPONENT,
     },
     {
-        image : `/assets/images/Chess_rdt60.png`,
+        image : `/assets/images/Chess_kdt60.png`,
         position: {
             x: 4,
             y: 7,
@@ -218,7 +218,7 @@ export const initialBoardState: Piece[] = [
         team: TeamType.OUR,
     },
     {
-        image : `/assets/images/Chess_rlt60.png`,
+        image : `/assets/images/Chess_klt60.png`,
         position: {
             x: 4,
             y: 0,
