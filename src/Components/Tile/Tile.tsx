@@ -7,7 +7,6 @@ interface Props{
 }
 
 const Tile = ({number, image}: Props) => {
-    console.log(image);
     if(number % 2 === 0){
         return (
 
