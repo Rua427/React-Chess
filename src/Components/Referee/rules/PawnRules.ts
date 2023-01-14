@@ -1,4 +1,4 @@
-import { Piece, PieceType, Position, samePosition, TeamType } from "../../../Constants"
+import { Piece, Position, TeamType } from "../../../Constants"
 import { tileIsOccupied, TileIsOccupiedByOpponent } from "./GeneralRules";
 
 
@@ -34,23 +34,3 @@ export const pawnMove = (initialPosition: Position, desiredPosition: Position, t
 }
 
 
-export const isEnPassantMove = (initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[] ) => {
-    const pawnDirection = team === TeamType.OUR ? 1 : -1;
-    
-
-    if(type === PieceType.PAWN){
-        // ATTACK LOGIC
-        if((desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) && desiredPosition.y - initialPosition.y === pawnDirection){
-            const piece = boardState.find(p => samePosition(p.position, {x: desiredPosition.x, y: (desiredPosition.y - pawnDirection)}) && p.enPassant);
-
-            if(piece){
-                return true;
-            }
-        }
-    }
-    
-
-    // Put piece in correct position
-    // Remove en passanted piece
-    return false;
-}
