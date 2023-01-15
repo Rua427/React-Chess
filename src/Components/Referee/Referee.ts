@@ -59,4 +59,10 @@ export default class Referee {
         return validMode;
 
     }
+
+    getValidMoves() : Position[] {
+
+
+        return [];
+    }
 }

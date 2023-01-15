@@ -35,9 +35,27 @@ export interface Piece{
     enPassant?: boolean;
 }
 
+export const PieceImage: string[][] = [
+    [
+        "/assets/images/Chess_pdt60.png",
+        "/assets/images/Chess_bdt60.png",
+        "/assets/images/Chess_ndt60.png",
+        "/assets/images/Chess_rdt60.png",
+        "/assets/images/Chess_qdt60.png",
+        "/assets/images/Chess_kdt60.png",
+    ],
+    [
+        "/assets/images/Chess_plt60.png",
+        "/assets/images/Chess_blt60.png",
+        "/assets/images/Chess_nlt60.png",
+        "/assets/images/Chess_rlt60.png",
+        "/assets/images/Chess_qlt60.png",
+        "/assets/images/Chess_klt60.png",
+    ]
+]
 export const initialBoardState: Piece[] = [
     {
-        image : `/assets/images/Chess_rdt60.png`,
+        image : PieceImage[0][3],
         position: {
             x: 0,
             y: 7,
