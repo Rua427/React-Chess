@@ -26,3 +26,66 @@ export const bishopMove = (initialPosition: Position, desiredPosition: Position,
     }
     return false;
 }
+
+
+export const GetPossibleBishopMoves = (bishop: Piece, boardState: Piece[]): Position[] => {
+    const possibleMoves: Position[] = [];
+
+    for(let i = 1; i < 8; i++){
+        const destination: Position = {x: bishop.position.x + i, y: bishop.position.y + i};
+
+        if(!tileIsOccupied(destination, boardState)){
+            possibleMoves.push(destination);
+        }
+        else if(tileIsEmptyOrOccupiedByOpponent(destination, boardState, bishop.team)){
+            possibleMoves.push(destination);
+            break;
+        }
+        else{
+            break;
+        }
+    }
+    for(let i = 1; i < 8; i++){
+        const destination: Position = {x: bishop.position.x - i, y: bishop.position.y + i};
+
+        if(!tileIsOccupied(destination, boardState)){
+            possibleMoves.push(destination);
+        }
+        else if(tileIsEmptyOrOccupiedByOpponent(destination, boardState, bishop.team)){
+            possibleMoves.push(destination);
+            break;
+        }
+        else{
+            break;
+        }
+    }
+    for(let i = 1; i < 8; i++){
+        const destination: Position = {x: bishop.position.x + i, y: bishop.position.y - i};
+
+        if(!tileIsOccupied(destination, boardState)){
+            possibleMoves.push(destination);
+        }
+        else if(tileIsEmptyOrOccupiedByOpponent(destination, boardState, bishop.team)){
+            possibleMoves.push(destination);
+            break;
+        }
+        else{
+            break;
+        }
+    }
+    for(let i = 1; i < 8; i++){
+        const destination: Position = {x: bishop.position.x - i, y: bishop.position.y - i};
+
+        if(!tileIsOccupied(destination, boardState)){
+            possibleMoves.push(destination);
+        }
+        else if(tileIsEmptyOrOccupiedByOpponent(destination, boardState, bishop.team)){
+            possibleMoves.push(destination);
+            break;
+        }
+        else{
+            break;
+        }
+    }
+    return possibleMoves;
+}
