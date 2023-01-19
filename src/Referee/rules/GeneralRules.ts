@@ -1,4 +1,4 @@
-import {Piece, Position, TeamType, samePosition } from '../../../Constants'
+import {Piece, Position, TeamType, samePosition } from '../../Constants'
 
 export const tileIsEmptyOrOccupiedByOpponent = (
     position: Position,

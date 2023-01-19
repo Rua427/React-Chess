@@ -1,4 +1,4 @@
-import { Piece, Position, samePosition, TeamType } from "../../../Constants";
+import { Piece, Position, samePosition, TeamType } from "../../Constants";
 import { tileIsEmptyOrOccupiedByOpponent, tileIsOccupied } from "./GeneralRules";
 
 export const queenMove = (initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean => {
@@ -30,7 +30,7 @@ export const queenMove = (initialPosition: Position, desiredPosition: Position, 
 }
 
 
-export const GetPossibleQueenMove = (queen: Piece, boardState: Piece[]): Position[] => {
+export const GetPossibleQueenMoves = (queen: Piece, boardState: Piece[]): Position[] => {
     const possibleMoves: Position[] = [];
 
     for (let i = 1; i < 8; i++) {

@@ -1,4 +1,4 @@
-import { Piece, Position, TeamType } from "../../../Constants";
+import { Piece, Position, TeamType } from "../../Constants";
 import { tileIsEmptyOrOccupiedByOpponent } from "./GeneralRules";
 
 

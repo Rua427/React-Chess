@@ -1,4 +1,4 @@
-import { Piece, Position, TeamType, samePosition, PieceType } from "../../../Constants"
+import { Piece, Position, TeamType, samePosition } from "../../Constants"
 import { tileIsOccupied, TileIsOccupiedByOpponent } from "./GeneralRules";
 
 
@@ -25,7 +25,7 @@ export const pawnMove = (initialPosition: Position, desiredPosition: Position, t
             return true;
         }
     }
-    else if(desiredPosition.x - initialPosition.x === 1 && desiredPosition.y - initialPosition.y == pawnDirection){
+    else if(desiredPosition.x - initialPosition.x === 1 && desiredPosition.y - initialPosition.y === pawnDirection){
         if(TileIsOccupiedByOpponent(desiredPosition, boardState, team)){
             return true;
         }
