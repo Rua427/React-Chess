@@ -5,10 +5,9 @@ import {
     VERTICAL_AXIS, 
     HORIZONTAL_AXIS, 
     GRID_SIZE,
-    Piece, 
-    Position,
     samePosition,
 } from '../../Constants';
+import { Position, Piece } from '../../models';
 
 interface Props{
     playMove: (piece: Piece, position: Position) => boolean;
@@ -18,21 +17,19 @@ interface Props{
 const Chessboard = ({playMove, pieces}: Props) => {
     // const [gridX, setGridX] = useState(0);
     // const [gridY, setGridY] = useState(0);
-    const [grabPosition, setGrabPosition] = useState<Position>({x: - 1, y: -1});
+    const [grabPosition, setGrabPosition] = useState<Position>(new Position(-1, -1));
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
     const chessboardRef = useRef<HTMLDivElement>(null);
     
     const grabPiece = (e: React.MouseEvent) => {
         const element = e.target as HTMLElement;
         const chessboard = chessboardRef.current;
-        
+
         if(element.classList.contains("chess-piece") && chessboard){
+
             const grabX = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
             const grabY = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 800) / GRID_SIZE));
-            setGrabPosition({
-                x: grabX,
-                y: grabY
-            });
+            setGrabPosition(new Position(grabX, grabY));
             const x = e.clientX - (GRID_SIZE / 2);
             const y = e.clientY - (GRID_SIZE / 2);
             element.style.position = "absolute";
@@ -47,6 +44,7 @@ const Chessboard = ({playMove, pieces}: Props) => {
         const chessboard = chessboardRef.current;
 
         if(activePiece && chessboard){
+            console.log(activePiece, chessboard);
             const minX = chessboard.offsetLeft - 25;
             const minY = chessboard.offsetTop  - 25;
             const maxX = chessboard.offsetLeft + chessboard.clientWidth - 75;
@@ -95,7 +93,7 @@ const Chessboard = ({playMove, pieces}: Props) => {
             // currentPiece
 
             if(currentPiece){
-                var success = playMove(currentPiece, {x, y});
+                var success = playMove(currentPiece, new Position(x, y));
 
                 if(!success){
                     activePiece.style.position = "relative";
@@ -113,11 +111,11 @@ const Chessboard = ({playMove, pieces}: Props) => {
     for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
         for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
             const number = j + i + 2;
-            const piece = pieces.find(p => samePosition(p.position, {x: i, y: j}));
+            const piece = pieces.find(p => samePosition(p.position, new Position(i, j)));
 
             let image = piece ? piece.image : undefined;
             let currentPiece = activePiece != null ? pieces.find(p => samePosition(p.position, grabPosition)) : undefined;
-            let highlight = currentPiece?.possibleMoves ? currentPiece.possibleMoves.some(p => samePosition(p, {x: i, y: j})) : false;
+            let highlight = currentPiece?.possibleMoves ? currentPiece.possibleMoves.some(p => samePosition(p, new Position(i, j))) : false;
 
             board = board.concat(<Tile key={`${j},${i}`} image={image} number={number} highlight={highlight}/>);
         }

@@ -1,4 +1,5 @@
-import { Piece, Position, samePosition, TeamType } from "../../Constants";
+import { samePosition, TeamType } from "../../Constants";
+import { Piece, Position } from "../../models";
 import { tileIsEmptyOrOccupiedByOpponent, tileIsOccupied } from "./GeneralRules";
 
 
@@ -11,7 +12,7 @@ export const bishopMove = (initialPosition: Position, desiredPosition: Position,
 
 
     for(let i = 1; i < 8; i++){
-        let passedPosition: Position = {x: initialPosition.x + i * x, y: initialPosition.y + i * y};
+        let passedPosition = new Position(initialPosition.x + i * x, initialPosition.y + i * y);
         // 경로상에 기물이 있는지 확인
         // Check if the passed tile is occupied
         if(samePosition(desiredPosition, passedPosition)){
@@ -32,7 +33,7 @@ export const GetPossibleBishopMoves = (bishop: Piece, boardState: Piece[]): Posi
     const possibleMoves: Position[] = [];
 
     for(let i = 1; i < 8; i++){
-        const destination: Position = {x: bishop.position.x + i, y: bishop.position.y + i};
+        const destination = new Position( bishop.position.x + i, bishop.position.y + i);
 
         if(!tileIsOccupied(destination, boardState)){
             possibleMoves.push(destination);
@@ -46,7 +47,7 @@ export const GetPossibleBishopMoves = (bishop: Piece, boardState: Piece[]): Posi
         }
     }
     for(let i = 1; i < 8; i++){
-        const destination: Position = {x: bishop.position.x - i, y: bishop.position.y + i};
+        const destination = new Position(bishop.position.x - i, bishop.position.y + i);
 
         if(!tileIsOccupied(destination, boardState)){
             possibleMoves.push(destination);
@@ -60,7 +61,7 @@ export const GetPossibleBishopMoves = (bishop: Piece, boardState: Piece[]): Posi
         }
     }
     for(let i = 1; i < 8; i++){
-        const destination: Position = {x: bishop.position.x + i, y: bishop.position.y - i};
+        const destination = new Position(bishop.position.x + i, bishop.position.y - i);
 
         if(!tileIsOccupied(destination, boardState)){
             possibleMoves.push(destination);
@@ -74,7 +75,7 @@ export const GetPossibleBishopMoves = (bishop: Piece, boardState: Piece[]): Posi
         }
     }
     for(let i = 1; i < 8; i++){
-        const destination: Position = {x: bishop.position.x - i, y: bishop.position.y - i};
+        const destination = new Position(bishop.position.x - i, bishop.position.y - i);
 
         if(!tileIsOccupied(destination, boardState)){
             possibleMoves.push(destination);

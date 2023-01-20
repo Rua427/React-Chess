@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { initialBoardState, Piece, PieceImage, PieceType, Position, samePosition, TeamType } from '../../Constants';
+import { initialBoardState, PieceImage, PieceType, samePosition, TeamType } from '../../Constants';
+import { Piece } from '../../models/Piece';
+import { Position } from '../../models/Position';
 import { bishopMove, GetPossibleBishopMoves, GetPossibleKingMoves, GetPossibleKnightMoves, GetPossiblePawnMoves, GetPossibleQueenMoves, GetPossibleRookMoves, kingMove, knightMove, pawnMove, queenMove, rookMove } from '../../Referee/rules';
 import Chessboard from '../ChessBoard/Chessboard'
 
@@ -39,7 +41,7 @@ const Referee = () => {
                     piece.position.y = destination.y;
                     results = results.concat(piece);
                 }
-                else if(!(samePosition(piece.position, {x: destination.x, y: (destination.y - pawnDirection)}))){
+                else if(!(samePosition(piece.position, new Position(destination.x, destination.y - pawnDirection)))){
                     if(piece.type === PieceType.PAWN){
                         piece.enPassant = false;
                     }
@@ -69,7 +71,7 @@ const Referee = () => {
                     }
                     results.push(piece);
                 }
-                else if(!(samePosition(piece.position, {x: destination.x, y:  destination.y}))){
+                else if(!(samePosition(piece.position, new Position(destination.x, destination.y)))){
                     if(piece.type === PieceType.PAWN){
                         piece.enPassant = false;
                     }
@@ -97,7 +99,7 @@ const Referee = () => {
         if(type === PieceType.PAWN){
             // ATTACK LOGIC
             if((desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) && desiredPosition.y - initialPosition.y === pawnDirection){
-                const piece = pieces.find(p => samePosition(p.position, {x: desiredPosition.x, y: (desiredPosition.y - pawnDirection)}) && p.enPassant);
+                const piece = pieces.find(p => samePosition(p.position, new Position(desiredPosition.x, desiredPosition.y - pawnDirection)) && p.enPassant);
 
                 if(piece){
                     return true;
