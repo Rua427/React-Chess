@@ -1,6 +1,6 @@
-import { samePosition, TeamType } from "../../Constants";
 import { Piece, Position } from "../../models";
 import { tileIsEmptyOrOccupiedByOpponent, tileIsOccupied } from "./GeneralRules";
+import { TeamType } from '../../Types';
 
 
 export const bishopMove = (initialPosition: Position, desiredPosition: Position, team: TeamType, boardState: Piece[]): boolean =>{
@@ -15,7 +15,7 @@ export const bishopMove = (initialPosition: Position, desiredPosition: Position,
         let passedPosition = new Position(initialPosition.x + i * x, initialPosition.y + i * y);
         // 경로상에 기물이 있는지 확인
         // Check if the passed tile is occupied
-        if(samePosition(desiredPosition, passedPosition)){
+        if(passedPosition.samePosition(desiredPosition)){
             // is it occupied by the opponent?
             if(tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)){
                 return true;

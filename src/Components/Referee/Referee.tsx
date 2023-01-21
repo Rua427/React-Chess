@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { initialBoardState, PieceImage, PieceType, samePosition, TeamType } from '../../Constants';
+import { initialBoardState, PieceImage } from '../../Constants';
 import { Piece } from '../../models/Piece';
 import { Position } from '../../models/Position';
 import { bishopMove, GetPossibleBishopMoves, GetPossibleKingMoves, GetPossibleKnightMoves, GetPossiblePawnMoves, GetPossibleQueenMoves, GetPossibleRookMoves, kingMove, knightMove, pawnMove, queenMove, rookMove } from '../../Referee/rules';
+import { PieceType, TeamType } from '../../Types';
 import Chessboard from '../ChessBoard/Chessboard'
 
 const Referee = () => {
@@ -35,13 +36,13 @@ const Referee = () => {
 
         if(enEnPassantMove){
             const updatedPieces = pieces.reduce((results, piece) =>{
-                if(samePosition(piece.position, playedPiece.position)){
+                if(piece.samePiecePosition(playedPiece)){
                     piece.enPassant = false;
                     piece.position.x = destination.x;
                     piece.position.y = destination.y;
                     results = results.concat(piece);
                 }
-                else if(!(samePosition(piece.position, new Position(destination.x, destination.y - pawnDirection)))){
+                else if(!(piece.position.samePosition(new Position(destination.x, destination.y - pawnDirection)))){
                     if(piece.type === PieceType.PAWN){
                         piece.enPassant = false;
                     }
@@ -57,7 +58,7 @@ const Referee = () => {
         else if(validMove){
 
             const updatedPieces = pieces.reduce((results, piece) => {
-                if(samePosition(piece.position, playedPiece.position)){
+                if(piece.samePiecePosition(playedPiece)){
                     // SPECIAL MOVE
                     piece.enPassant = Math.abs(playedPiece.position.y - destination.y) === 2 && piece.type === PieceType.PAWN;
                     
@@ -71,7 +72,7 @@ const Referee = () => {
                     }
                     results.push(piece);
                 }
-                else if(!(samePosition(piece.position, new Position(destination.x, destination.y)))){
+                else if(!(piece.samePosition(new Position(destination.x, destination.y)))){
                     if(piece.type === PieceType.PAWN){
                         piece.enPassant = false;
                     }
@@ -99,7 +100,7 @@ const Referee = () => {
         if(type === PieceType.PAWN){
             // ATTACK LOGIC
             if((desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) && desiredPosition.y - initialPosition.y === pawnDirection){
-                const piece = pieces.find(p => samePosition(p.position, new Position(desiredPosition.x, desiredPosition.y - pawnDirection)) && p.enPassant);
+                const piece = pieces.find(p => p.samePosition(new Position(desiredPosition.x, desiredPosition.y - pawnDirection)) && p.enPassant);
 
                 if(piece){
                     return true;
@@ -173,7 +174,7 @@ const Referee = () => {
             return;
         }
         const updatedPieces = pieces.reduce((results, piece) => {
-            if(samePosition(piece.position, promotionPawn.position)){
+            if(piece.samePosition(promotionPawn.position)){
                 piece.type = pieceType;
                 piece.image = PieceImage[piece.team][pieceType];
             }

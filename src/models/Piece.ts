@@ -1,8 +1,9 @@
-import { PieceImage, PieceType, TeamType } from "../Constants";
+import { PieceImage} from "../Constants";
 import { Position } from "./Position";
+import { PieceType, TeamType } from '../Types';
 
 
-export class Piece{
+export class Piece {
     image: string;
     position: Position;
     type: PieceType;
@@ -15,5 +16,12 @@ export class Piece{
         this.position = position;
         this.type = type;
         this.team = team;
+    }
+
+    samePiecePosition(otherPiece: Piece): boolean{
+        return this.position.samePosition(otherPiece.position);
+    }
+    samePosition(otherPosition: Position): boolean{
+        return this.position.samePosition(otherPosition);
     }
 }

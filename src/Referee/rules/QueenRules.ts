@@ -1,4 +1,4 @@
-import { samePosition, TeamType } from "../../Constants";
+import { TeamType } from "../../Types";
 import { Piece, Position } from "../../models";
 import { tileIsEmptyOrOccupiedByOpponent, tileIsOccupied } from "./GeneralRules";
 
@@ -17,7 +17,7 @@ export const queenMove = (initialPosition: Position, desiredPosition: Position, 
     for (let i = 1; i < 8; i++) {
         let passedPosition = new Position(initialPosition.x + (i * x), initialPosition.y + (i * y));
         
-        if(samePosition(desiredPosition, passedPosition)){
+        if(passedPosition.samePosition(desiredPosition)){
             if(tileIsEmptyOrOccupiedByOpponent(passedPosition, boardState, team)){
                 return true;
             }
