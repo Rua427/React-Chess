@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { initialBoardState, PieceImage } from '../../Constants';
+import { Pawn } from '../../models/Pawn';
 import { Piece } from '../../models/Piece';
 import { Position } from '../../models/Position';
 import { bishopMove, GetPossibleBishopMoves, GetPossibleKingMoves, GetPossibleKnightMoves, GetPossiblePawnMoves, GetPossibleQueenMoves, GetPossibleRookMoves, kingMove, knightMove, pawnMove, queenMove, rookMove } from '../../Referee/rules';
@@ -37,14 +38,15 @@ const Referee = () => {
         if(enEnPassantMove){
             const updatedPieces = pieces.reduce((results, piece) =>{
                 if(piece.samePiecePosition(playedPiece)){
-                    piece.enPassant = false;
+                    if(piece.isPawn)
+                        (piece as Pawn).enPassant = false;
                     piece.position.x = destination.x;
                     piece.position.y = destination.y;
                     results = results.concat(piece);
                 }
                 else if(!(piece.position.samePosition(new Position(destination.x, destination.y - pawnDirection)))){
-                    if(piece.type === PieceType.PAWN){
-                        piece.enPassant = false;
+                    if(piece.isPawn){
+                        (piece as Pawn).enPassant = false;
                     }
                     results = results.concat(piece);
                 }
@@ -60,21 +62,22 @@ const Referee = () => {
             const updatedPieces = pieces.reduce((results, piece) => {
                 if(piece.samePiecePosition(playedPiece)){
                     // SPECIAL MOVE
-                    piece.enPassant = Math.abs(playedPiece.position.y - destination.y) === 2 && piece.type === PieceType.PAWN;
+                    if(piece.isPawn)
+                        (piece as Pawn).enPassant = Math.abs(playedPiece.position.y - destination.y) === 2;
                     
                     piece.position.x = destination.x;
                     piece.position.y = destination.y;
                     
                     let promotionRow = (piece.team === TeamType.OUR) ? 7 : 0;
-                    if(destination.y === promotionRow && piece.type === PieceType.PAWN){
+                    if(destination.y === promotionRow && piece.isPawn){
                         modalRef.current?.classList.remove("hidden");
                         setPromotionPawn(piece);
                     }
                     results.push(piece);
                 }
                 else if(!(piece.samePosition(new Position(destination.x, destination.y)))){
-                    if(piece.type === PieceType.PAWN){
-                        piece.enPassant = false;
+                    if(piece.isPawn){
+                        (piece as Pawn).enPassant = false;
                     }
                     results.push(piece);
                 }
@@ -100,7 +103,9 @@ const Referee = () => {
         if(type === PieceType.PAWN){
             // ATTACK LOGIC
             if((desiredPosition.x - initialPosition.x === -1 || desiredPosition.x - initialPosition.x === 1) && desiredPosition.y - initialPosition.y === pawnDirection){
-                const piece = pieces.find(p => p.samePosition(new Position(desiredPosition.x, desiredPosition.y - pawnDirection)) && p.enPassant);
+                const piece = pieces.find(p => p.samePosition(new Position(desiredPosition.x, desiredPosition.y - pawnDirection))
+                && p.isPawn && (p as Pawn).enPassant
+                );
 
                 if(piece){
                     return true;

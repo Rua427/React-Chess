@@ -63,7 +63,9 @@ export const GetPossiblePawnMoves = (pawn: Piece, boardState: Piece[]): Position
     else if(!tileIsOccupied(upperLeftAttack, boardState)){
         const leftPiece = boardState.find(p => p.samePosition(leftPosition));
 
-        if(leftPiece != null && leftPiece.enPassant){
+        if(leftPiece != null 
+            // && leftPiece.enPassant
+            ){
             possibleMoves.push(upperLeftAttack);
         }
     }
@@ -74,7 +76,9 @@ export const GetPossiblePawnMoves = (pawn: Piece, boardState: Piece[]): Position
     else if(!tileIsOccupied(upperRightAttack, boardState)){
         const rightPiece = boardState.find(p => p.samePosition(rightPosition));
 
-        if(rightPiece != null && rightPiece.enPassant ){
+        if(rightPiece != null 
+            // && rightPiece.enPassant 
+            ){
             possibleMoves.push(upperRightAttack);
         }
     }
