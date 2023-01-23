@@ -43,7 +43,6 @@ const Chessboard = ({playMove, pieces}: Props) => {
         const chessboard = chessboardRef.current;
 
         if(activePiece && chessboard){
-            console.log(activePiece, chessboard);
             const minX = chessboard.offsetLeft - 25;
             const minY = chessboard.offsetTop  - 25;
             const maxX = chessboard.offsetLeft + chessboard.clientWidth - 75;
@@ -92,7 +91,7 @@ const Chessboard = ({playMove, pieces}: Props) => {
             // currentPiece
 
             if(currentPiece){
-                var success = playMove(currentPiece, new Position(x, y));
+                var success = playMove(currentPiece.clone(), new Position(x, y));
 
                 if(!success){
                     activePiece.style.position = "relative";
@@ -102,10 +101,10 @@ const Chessboard = ({playMove, pieces}: Props) => {
             }
             setActivePiece(null);
         }
-
     }
 
     let board: any = [];
+    console.log("Render");
 
     for (let j = VERTICAL_AXIS.length - 1; j >= 0; j--) {
         for (let i = 0; i < HORIZONTAL_AXIS.length; i++) {
@@ -126,7 +125,7 @@ const Chessboard = ({playMove, pieces}: Props) => {
         <div
             onMouseDown={e => grabPiece(e)}
             onMouseMove={e => movePiece(e)}
-            onMouseUp={e => {dropPiece(e)}}
+            onMouseUp={e => dropPiece(e)}
             id='chessboard'
             ref={chessboardRef}
         >
